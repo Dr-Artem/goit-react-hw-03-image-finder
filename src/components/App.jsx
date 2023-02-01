@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { SearchBar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
+import style from './App.module.css';
 
 export class App extends Component {
     state = {
@@ -16,18 +17,21 @@ export class App extends Component {
             page: 1,
         });
     };
-    handleLearnMorePage = page => {
-        this.setState({ page });
+    handleLearnMorePage = event => {
+        event.preventDefault();
+        this.setState(() => ({
+            page: this.state.page + 1,
+        }));
     };
 
-    handleTotalPages = length => {
-        this.state.page >= length
+    handleTotalPages = totalPages => {
+        this.state.page >= totalPages
             ? this.setState({ loadMore: false })
             : this.setState({ loadMore: true });
     };
     render() {
         return (
-            <>
+            <div className={style.App}>
                 <SearchBar onSubmit={this.handleFormSubmit} />
                 <ImageGallery
                     name={this.state.input}
@@ -41,7 +45,7 @@ export class App extends Component {
                         isFalse={this.state.loadMore}
                     />
                 )}
-            </>
+            </div>
         );
     }
 }

@@ -1,11 +1,9 @@
-import { Component } from 'react';
+import style from './Button.module.css';
 
-export class Button extends Component {
-    handleLearnMore = () => {
-        this.props.learnMorePage(this.props.curPage + 1);
-    };
-
-    render() {
-        return <button onClick={this.handleLearnMore}>Load more</button>;
-    }
-}
+export const Button = ({ learnMorePage }) => {
+    return (
+        <button type="button" className={style.Button} onClick={learnMorePage}>
+            Load more
+        </button>
+    );
+};
