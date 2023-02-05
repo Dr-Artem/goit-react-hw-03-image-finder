@@ -2,6 +2,8 @@ import { Component } from 'react';
 import { SearchBar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import style from './App.module.css';
 
 export class App extends Component {
@@ -45,6 +47,7 @@ export class App extends Component {
                         isFalse={this.state.loadMore}
                     />
                 )}
+                <ToastContainer autoClose={3000} />
             </div>
         );
     }

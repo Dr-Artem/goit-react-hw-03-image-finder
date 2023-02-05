@@ -3,6 +3,7 @@ import { Api } from 'js/Api';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Modal } from 'components/Modal/Modal';
 import { Loader } from 'components/Loader/Loader';
+import { toast } from 'react-toastify';
 import style from './ImageGallery.module.css';
 
 export class ImageGallery extends Component {
@@ -17,28 +18,29 @@ export class ImageGallery extends Component {
         const { name, page, total } = this.props;
 
         if (prevProps.name !== name || prevProps.page !== page) {
-            this.setState({ loading: true, pictures: [] });
+            this.setState({ loading: true });
 
             const { data } = await Api(name, page);
-            setTimeout(() => {
-                try {
-                    if (name !== prevProps.name) {
-                        this.setState({
-                            pictures: data.hits,
-                        });
-                    } else {
-                        this.setState(prevState => ({
-                            pictures: [...prevState.pictures, ...data.hits],
-                        }));
-                    }
-
-                    total(data.totalHits / 12);
-                } catch (error) {
-                    console.log(error);
-                } finally {
-                    this.setState({ loading: false });
+            try {
+                if (name !== prevProps.name) {
+                    this.setState({
+                        pictures: data.hits,
+                    });
+                } else {
+                    this.setState(prevState => ({
+                        pictures: [...prevState.pictures, ...data.hits],
+                    }));
                 }
-            }, 1000);
+                if (data.totalHits === 0) {
+                    toast("We don't find any photo");
+                }
+
+                total(data.totalHits / 12);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                this.setState({ loading: false });
+            }
         }
     }
 
